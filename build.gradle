@@ -1,30 +1,75 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { 
-            url "https://plugins.gradle.org/m2/" 
-        }			
-    }
-    dependencies {
-        classpath("gradle.plugin.com.palantir.gradle.gitversion:gradle-git-version:0.10.1")		
+plugins {
+    id 'java'
+    id 'maven-publish'    
+    id 'java-gradle-plugin'
+}
+
+apply from: 'dependencies.gradle'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar.baseName = 'gretl'
+description = 'gretl gradle plugin'
+
+group 'ch.so.agi'
+version '1.0.5'+System.getProperty('release', "-SNAPSHOT") // -Drelease
+
+gradlePlugin {
+    plugins {
+        gretlPlugin {
+            id = 'ch.so.agi.gretl'
+            implementationClass = 'ch.so.agi.gretl.gradle.GretlPlugin'
+        }
     }
 }
 
-apply plugin: 'com.palantir.git-version'
-
-allprojects {
-    group 'ch.so.agi'
-    version '1.0.5'+System.getProperty('release', "-"+versionDetails().gitHash) // -Drelease
-    
+publishing {
     repositories {
         mavenLocal()
-        maven {
-            url "http://jars.interlis.ch"
-        }
-        maven {
-            url "http://download.osgeo.org/webdav/geotools/"
-        }
-        mavenCentral()
+    }
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url "http://jars.interlis.ch"
+    }
+    maven {
+        url "http://download.osgeo.org/webdav/geotools/"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    testCompile junitDependency
+
+    compile postgresqlDependency
+    compile sqliteJdbcDependency
+    compile derbyDependency
+    //compile oracleDependency
+
+    compile ilivalidatorDependency
+    compile(ili2pgDependency) {
+        exclude group: 'ch.ehi', module: 'ehisqlgen'
+    }
+    compile ioxWkfDependency
+    compile ioxIliDependency
+
+    compile ehiSqlgenDependendy
+}
+
+test {
+    useJUnit {
+        // Exclude all Tests with dependency to a db server (pg, oracle, ..)
+        excludeCategories 'ch.so.agi.gretl.testutil.DbTest'
+    }
+}
+
+task dbTest(type: Test, dependsOn: [compileJava, compileTestJava]) {
+    useJUnit {
+        // Runs all tests with dependency to a db server
+        includeCategories 'ch.so.agi.gretl.testutil.DbTest'
     }
 }
 

@@ -13,3 +13,6 @@ Was würde - Stand heute - wegfallen:
 
 ### Clean Code
 * Gross-/Kleinschreibung in Db2Db-Testklasse.
+
+### Sonstiges
+* Fileextension: mit Apache Commons irgendwas?
