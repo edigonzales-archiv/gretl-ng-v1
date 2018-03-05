@@ -15,7 +15,15 @@ description = 'gretl gradle plugin'
 group 'ch.so.agi'
 version '1.0.5'+System.getProperty('release', "-SNAPSHOT") // -Drelease
 
+sourceSets {
+    functTest {
+        java.srcDir file('src/functTest/java')
+    }
+}
+
 gradlePlugin {
+    testSourceSets sourceSets.functTest
+
     plugins {
         gretlPlugin {
             id = 'ch.so.agi.gretl'
@@ -57,6 +65,9 @@ dependencies {
     compile ioxIliDependency
 
     compile ehiSqlgenDependendy
+    
+    functTestCompile junitDependency
+    
 }
 
 test {
@@ -78,4 +89,12 @@ task fubar() {
         println version
         println findProperty('release')
     }
+}
+
+task functTest(type: Test) {
+    description = 'Run the functional tests.'
+    group = 'Verification'
+    testClassesDirs = sourceSets.functTest.output.classesDirs
+    classpath = sourceSets.functTest.runtimeClasspath
+    jvmArgs '-Xmx1g'
 }
