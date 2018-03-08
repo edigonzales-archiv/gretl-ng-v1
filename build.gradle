@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'maven-publish'    
     id 'java-gradle-plugin'
+    id 'eclipse'
 }
 
 apply from: 'dependencies.gradle'
@@ -18,17 +19,6 @@ version '1.0.5'+System.getProperty('release', "-SNAPSHOT") // -Drelease
 sourceSets {
     functTest {
         java.srcDir file('src/functTest/java')
-    }
-}
-
-gradlePlugin {
-    testSourceSets sourceSets.functTest
-
-    plugins {
-        gretlPlugin {
-            id = 'ch.so.agi.gretl'
-            implementationClass = 'ch.so.agi.gretl.gradle.GretlPlugin'
-        }
     }
 }
 
@@ -64,10 +54,23 @@ dependencies {
     compile ioxWkfDependency
     compile ioxIliDependency
 
-    compile ehiSqlgenDependendy
+    compile ehiSqlgenDependency
     
+    //testCompile gradleTestKit()
+    //functTestCompile gradleTestKit()
     functTestCompile junitDependency
     
+}
+
+gradlePlugin {
+    testSourceSets sourceSets.functTest
+
+    plugins {
+        gretlPlugin {
+            id = 'ch.so.agi.gretl'
+            implementationClass = 'ch.so.agi.gretl.gradle.GretlPlugin'
+        }
+    }
 }
 
 test {
@@ -90,6 +93,7 @@ task fubar() {
         println findProperty('release')
     }
 }
+
 
 task functTest(type: Test) {
     description = 'Run the functional tests.'

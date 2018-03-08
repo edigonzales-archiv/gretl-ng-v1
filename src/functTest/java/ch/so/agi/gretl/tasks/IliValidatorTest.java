@@ -40,10 +40,17 @@ public class IliValidatorTest {
 //                .withProjectDir(testProjectDir.getRoot())
                 .withProjectDir(new File("/Users/stefan/sources/gretl-ng/src/functTest/jobs/iliValidator/"))
                 .withArguments("validate", "-i")
-                //.withPluginClasspath()
+                .withPluginClasspath()
                 .build();
 
-        
+        GradleRunner runner = GradleRunner.create()
+//                .withProjectDir(testProjectDir.getRoot())
+                .withProjectDir(new File("/Users/stefan/sources/gretl-ng/src/functTest/jobs/iliValidator/"))
+                .withArguments("validate", "-i")
+                .withPluginClasspath();
+
+        System.out.println(runner.getPluginClasspath());
+
         System.err.println(result.getOutput());
         
         assertTrue(result.getOutput().contains("...validation done"));
