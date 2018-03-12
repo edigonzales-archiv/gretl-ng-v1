@@ -17,8 +17,8 @@ group 'ch.so.agi'
 version '1.0.5'+System.getProperty('release', "-SNAPSHOT") // -Drelease
 
 sourceSets {
-    functTest {
-        java.srcDir file('src/functTest/java')
+    functionalTest {
+        java.srcDir file('src/functionalTest/java')
     }
 }
 
@@ -58,12 +58,12 @@ dependencies {
     
     //testCompile gradleTestKit()
     //functTestCompile gradleTestKit()
-    functTestCompile junitDependency
+    functionalTestCompile junitDependency
     
 }
 
 gradlePlugin {
-    testSourceSets sourceSets.functTest
+    testSourceSets sourceSets.functionalTest
 
     plugins {
         gretlPlugin {
@@ -95,10 +95,14 @@ task fubar() {
 }
 
 
-task functTest(type: Test) {
+task functionalTest(type: Test) {
     description = 'Run the functional tests.'
     group = 'Verification'
-    testClassesDirs = sourceSets.functTest.output.classesDirs
-    classpath = sourceSets.functTest.runtimeClasspath
+
+    // show standard out and standard error of the test JVM(s) on the console
+    testLogging.showStandardStreams = System.getenv('TRAVIS')=='true'
+
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
     jvmArgs '-Xmx1g'
 }
