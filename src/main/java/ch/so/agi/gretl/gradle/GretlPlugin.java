@@ -13,5 +13,7 @@ public class GretlPlugin implements Plugin<Project> {
     public void apply(Project project) {
         LogEnvironment.initGradleIntegrated();
         Ehi2GretlAdapter.init();
+        
     }
+
 }

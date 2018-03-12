@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'maven-publish'    
     id 'java-gradle-plugin'
-    id 'eclipse'
 }
 
 apply from: 'dependencies.gradle'
@@ -22,11 +21,13 @@ sourceSets {
     }
 }
 
+/*
 publishing {
     repositories {
         mavenLocal()
     }
 }
+*/
 
 repositories {
     mavenLocal()
@@ -40,8 +41,6 @@ repositories {
 }
 
 dependencies {
-    testCompile junitDependency
-
     compile postgresqlDependency
     compile sqliteJdbcDependency
     compile derbyDependency
@@ -53,13 +52,12 @@ dependencies {
     }
     compile ioxWkfDependency
     compile ioxIliDependency
-
     compile ehiSqlgenDependency
-    
-    //testCompile gradleTestKit()
-    //functTestCompile gradleTestKit()
+
+    compile apacheCommonsIoDependency
+
+    testCompile junitDependency
     functionalTestCompile junitDependency
-    
 }
 
 gradlePlugin {
@@ -73,28 +71,6 @@ gradlePlugin {
     }
 }
 
-test {
-    useJUnit {
-        // Exclude all Tests with dependency to a db server (pg, oracle, ..)
-        excludeCategories 'ch.so.agi.gretl.testutil.DbTest'
-    }
-}
-
-task dbTest(type: Test, dependsOn: [compileJava, compileTestJava]) {
-    useJUnit {
-        // Runs all tests with dependency to a db server
-        includeCategories 'ch.so.agi.gretl.testutil.DbTest'
-    }
-}
-
-task fubar() {
-    doLast {
-        println version
-        println findProperty('release')
-    }
-}
-
-
 task functionalTest(type: Test) {
     description = 'Run the functional tests.'
     group = 'Verification'
@@ -105,4 +81,26 @@ task functionalTest(type: Test) {
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
     jvmArgs '-Xmx1g'
+
+    //mustRunAfter test
+}
+
+// Transfer the required configuration variables to all test code.
+// (The test code has no access to the -D or -P variables as it is executed in a separate jvm-process)
+test {
+    def GRETLTEST_DBURI_PG = 'gretltest_dburi_pg'
+    systemProperty(GRETLTEST_DBURI_PG, findProperty(GRETLTEST_DBURI_PG))
+
+    def GRETLTEST_DBURI_ORA = 'gretltest_dburi_ora'
+    systemProperty(GRETLTEST_DBURI_ORA, findProperty(GRETLTEST_DBURI_ORA))
+
+    println 'dburi_pg: ' + getSystemProperties().getAt(GRETLTEST_DBURI_PG)
+    println 'dburi_ora: ' + getSystemProperties().getAt(GRETLTEST_DBURI_ORA)
+}
+
+task fubar() {
+    doLast {
+        println version
+        println findProperty('release')
+    }
 }

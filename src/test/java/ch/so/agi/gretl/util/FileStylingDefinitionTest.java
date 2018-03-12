@@ -6,31 +6,28 @@ import org.junit.Test;
 import java.io.File;
 
 public class FileStylingDefinitionTest {
+	private static final String TEST_IN = "src/test/data/FileStylingDefinition/";
 
     @Test
     public void wrongEncodingThrowsException() throws Exception {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File inputfile = new File(classLoader.getResource("test.txt").getFile());
+        File inputfile = new File(TEST_IN + "test.txt");
         try {
             FileStylingDefinition.checkForUtf8(inputfile);
             Assert.fail();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
     @Test
     public void rightEncoding() throws Exception {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File inputfile = new File(classLoader.getResource("test_utf8.txt").getFile());
+        File inputfile = new File(TEST_IN + "test_utf8.txt");
         FileStylingDefinition.checkForUtf8(inputfile);
-
     }
 
     @Test
-    public void FileWithBOMThrowsException() throws Exception {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File inputfile = new File(classLoader.getResource("query_with_bom.sql").getFile());
+    public void fileWithBOMThrowsException() throws Exception {
+        File inputfile = new File(TEST_IN + "query_with_bom.sql");
         try {
             FileStylingDefinition.checkForBOMInFile(inputfile);
         } catch (GretlException e) {
@@ -40,8 +37,7 @@ public class FileStylingDefinitionTest {
 
     @Test
     public void passingOnFileWithoutBOM() throws Exception {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File inputfile = new File(classLoader.getResource("test_utf8.txt").getFile());
+        File inputfile = new File(TEST_IN + "test_utf8.txt");
         FileStylingDefinition.checkForBOMInFile(inputfile);
     }
 }

@@ -3,7 +3,6 @@ package ch.so.agi.gretl.steps;
 import ch.so.agi.gretl.api.Connector;
 import ch.so.agi.gretl.logging.GretlLogger;
 import ch.so.agi.gretl.logging.LogEnvironment;
-import ch.so.agi.gretl.testutil.DbTest;
 import ch.so.agi.gretl.testutil.TestUtil;
 import ch.so.agi.gretl.util.EmptyFileException;
 import ch.so.agi.gretl.util.GretlException;
@@ -63,7 +62,7 @@ public class SqlExecutorStepTest {
             Assert.assertEquals("no file", e.getType());
         }
     }
-
+    
     @Test
     public void executeWithoutDbThrowsGretlException() throws Exception {
         SqlExecutorStep x = new SqlExecutorStep();
@@ -76,7 +75,6 @@ public class SqlExecutorStepTest {
             Assert.assertEquals("no database", e.getType());
         }
     }
-
 
     @Test
     public void executeWithWrongFileExtensionsThrowsGretlException() throws Exception {
@@ -93,7 +91,6 @@ public class SqlExecutorStepTest {
             Assert.assertEquals("no .sql-Extension", e.getType());
         }
     }
-
 
     @Test
     public void executeEmptyFileThrowsEmptyFileException() throws Exception {
@@ -129,7 +126,6 @@ public class SqlExecutorStepTest {
         }
     }
 
-
     @Test
     public void executeWrongQueryThrowsSQLException() throws Exception {
         SqlExecutorStep x = new SqlExecutorStep();
@@ -160,7 +156,6 @@ public class SqlExecutorStepTest {
 
     }
 
-
     @Test
     public void executePositiveTest() throws Exception {
         SqlExecutorStep x = new SqlExecutorStep();
@@ -170,31 +165,6 @@ public class SqlExecutorStepTest {
 
         x.execute(sourceDb,sqlListe);
     }
-
-    @Category(DbTest.class)
-    @Test
-    public void executePostgisVersionTest() throws Exception {
-        SqlExecutorStep x = new SqlExecutorStep();
-        Connector sourceDb = new Connector(TestUtil.PG_CONNECTION_URI, TestUtil.PG_READERUSR_USR, TestUtil.PG_READERUSR_PWD);
-
-        File sqlFile = folder.newFile("postgisversion.sql");
-        FileWriter sqlWriter=null;
-        try {
-            sqlWriter=new FileWriter(sqlFile);
-            sqlWriter.write("SELECT PostGIS_Full_Version();");
-        }finally {
-            if(sqlWriter!=null) {
-                sqlWriter.close();
-                sqlWriter=null;
-            }
-        }
-        List<File> sqlListe = new ArrayList<File>();
-        sqlListe.add(sqlFile);
-        
-
-        x.execute(sourceDb,sqlListe);
-    }
-
 
     @Test
     public void checkIfConnectionIsClosed() throws Exception{
@@ -206,8 +176,6 @@ public class SqlExecutorStepTest {
         x.execute(sourceDb,sqlListe);
         Assert.assertTrue(sourceDb.connect().isClosed());
     }
-
-
 
     private void clearTestDb(Connector sourceDb) throws Exception {
         Connection con = sourceDb.connect();
@@ -223,7 +191,6 @@ public class SqlExecutorStepTest {
         con.setAutoCommit(true);
         createTableInTestDb(con);
         con.close();
-
     }
 
     private void createTableInTestDb(Connection con) throws Exception {
@@ -301,9 +268,4 @@ public class SqlExecutorStepTest {
         sqlListe.add(sqlFile1);
         return sqlListe;
     }
-
-
-
-
-
 }
