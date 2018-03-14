@@ -2,6 +2,7 @@ package ch.so.agi.gretl.tasks.impl;
 
 import java.io.File;
 
+import ch.interlis.iox_j.PipelinePool;
 import org.interlis2.validator.Validator;
 
 import ch.ehi.basics.settings.Settings;
