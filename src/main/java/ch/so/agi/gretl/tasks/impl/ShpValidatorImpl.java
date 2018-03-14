@@ -1,4 +1,4 @@
-package ch.so.agi.gretl.jobs.impl;
+package ch.so.agi.gretl.tasks.impl;
 
 import java.io.File;
 
@@ -14,7 +14,7 @@ import ch.interlis.ioxwkf.shp.ShapeReader;
 public class ShpValidatorImpl extends Validator {
 
     @Override
-    protected IoxReader createReader(String filename, TransferDescription td, LogEventFactory errFactory,Settings settings)
+    protected IoxReader createReader(String filename, TransferDescription td, LogEventFactory errFactory,Settings settings, PipelinePool pool)
             throws IoxException {
         ShapeReader reader=new ShapeReader(new File(filename),settings);
         reader.setModel(td);

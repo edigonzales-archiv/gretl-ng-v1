@@ -1,4 +1,4 @@
-package ch.so.agi.gretl.jobs;
+package ch.so.agi.gretl.tasks;
 
 import ch.ehi.basics.settings.Settings;
 import ch.so.agi.gretl.api.Connector;

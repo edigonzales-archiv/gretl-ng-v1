@@ -1,4 +1,4 @@
-package ch.so.agi.gretl.jobs;
+package ch.so.agi.gretl.tasks;
 
 
 import ch.ehi.basics.settings.Settings;
@@ -6,8 +6,8 @@ import ch.interlis.iom_j.csv.CsvReader;
 import ch.interlis.ioxwkf.dbtools.IoxWkfConfig;
 import ch.so.agi.gretl.logging.GretlLogger;
 import ch.so.agi.gretl.logging.LogEnvironment;
-import ch.so.agi.gretl.jobs.impl.AbstractValidatorTask;
-import ch.so.agi.gretl.jobs.impl.CsvValidatorImpl;
+import ch.so.agi.gretl.tasks.impl.AbstractValidatorTask;
+import ch.so.agi.gretl.tasks.impl.CsvValidatorImpl;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.TaskAction;

@@ -41,23 +41,23 @@ repositories {
 }
 
 dependencies {
-    compile postgresqlDependency
-    compile sqliteJdbcDependency
-    compile derbyDependency
-    //compile oracleDependency
+    implementation postgresqlDependency
+    implementation sqliteJdbcDependency
+    implementation derbyDependency
+    //implementation oracleDependency
 
-    compile ilivalidatorDependency
-    compile(ili2pgDependency) {
+    implementation ilivalidatorDependency
+    implementation(ili2pgDependency) {
         exclude group: 'ch.ehi', module: 'ehisqlgen'
     }
-    compile ioxWkfDependency
-    compile ioxIliDependency
-    compile ehiSqlgenDependency
+    implementation ioxWkfDependency
+    implementation ioxIliDependency
+    implementation ehiSqlgenDependency
 
-    compile apacheCommonsIoDependency
+    implementation apacheCommonsIoDependency
 
-    testCompile junitDependency
-    functionalTestCompile junitDependency
+    testImplementation junitDependency
+    functionalTestImplementation junitDependency
 }
 
 gradlePlugin {

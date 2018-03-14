@@ -1,4 +1,4 @@
-package ch.so.agi.gretl.jobs.impl;
+package ch.so.agi.gretl.tasks.impl;
 
 
 import ch.ehi.ili2db.base.Ili2db;

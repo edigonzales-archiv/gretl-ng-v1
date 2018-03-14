@@ -1,22 +1,22 @@
-package ch.so.agi.gretl.jobs;
+package ch.so.agi.gretl.tasks;
 
 
 import ch.ehi.ili2db.base.Ili2db;
 import ch.ehi.ili2db.gui.Config;
-import ch.so.agi.gretl.jobs.impl.Ili2pgAbstractTask;
+import ch.so.agi.gretl.tasks.impl.Ili2pgAbstractTask;
 
-import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 
 
-public class Ili2pgUpdate extends Ili2pgAbstractTask {
-    @InputFile 
+public class Ili2pgExport extends Ili2pgAbstractTask {
+    @OutputFile
     public Object dataFile=null;
     @TaskAction
-    public void updateData()
+    public void exportData()
     {
         Config settings=createConfig();
-        int function=Config.FC_UPDATE;
+        int function=Config.FC_EXPORT;
         if (dataFile==null) {
             return;
         }
@@ -27,5 +27,6 @@ public class Ili2pgUpdate extends Ili2pgAbstractTask {
         settings.setXtffile(xtfFilename);
         run(function, settings);
     }
+
 }
 

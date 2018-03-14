@@ -1,12 +1,12 @@
-package ch.so.agi.gretl.jobs;
+package ch.so.agi.gretl.tasks;
 
 
 import ch.ehi.basics.settings.Settings;
 import ch.interlis.ioxwkf.shp.ShapeReader;
 import ch.so.agi.gretl.logging.GretlLogger;
 import ch.so.agi.gretl.logging.LogEnvironment;
-import ch.so.agi.gretl.jobs.impl.AbstractValidatorTask;
-import ch.so.agi.gretl.jobs.impl.ShpValidatorImpl;
+import ch.so.agi.gretl.tasks.impl.AbstractValidatorTask;
+import ch.so.agi.gretl.tasks.impl.ShpValidatorImpl;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.TaskAction;

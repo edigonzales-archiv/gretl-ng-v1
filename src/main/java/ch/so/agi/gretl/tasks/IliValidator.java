@@ -1,10 +1,10 @@
-package ch.so.agi.gretl.jobs;
+package ch.so.agi.gretl.tasks;
 
 
 import ch.ehi.basics.settings.Settings;
 import ch.so.agi.gretl.logging.GretlLogger;
 import ch.so.agi.gretl.logging.LogEnvironment;
-import ch.so.agi.gretl.jobs.impl.AbstractValidatorTask;
+import ch.so.agi.gretl.tasks.impl.AbstractValidatorTask;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.TaskExecutionException;
 import org.interlis2.validator.Validator;
