@@ -57,7 +57,9 @@ dependencies {
     implementation apacheCommonsIoDependency
 
     testImplementation junitDependency
+
     functionalTestImplementation junitDependency
+    functionalTestImplementation ioxWkfDependency
     functionalTestRuntime postgresqlDependency
 }
 
@@ -80,7 +82,7 @@ task functionalTest(type: Test) {
     testLogging.showStandardStreams = System.getenv('TRAVIS')=='true'
 
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
-    classpath += sourceSets.functionalTest.runtimeClasspath // + sourceSets.main.runtimeClasspath
+    classpath += sourceSets.functionalTest.runtimeClasspath //+ sourceSets.main.runtimeClasspath
     jvmArgs '-Xmx1g'
 
     //mustRunAfter test

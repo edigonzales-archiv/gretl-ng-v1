@@ -10,13 +10,13 @@ def db_uri = findProperty(GRETLTEST_DBURI) != null ? findProperty(GRETLTEST_DBUR
 def db_user = "dmluser"
 def db_pass = "dmluser"
 
-defaultTasks 'csvexport'
+defaultTasks 'csvimport'
 
-task csvexport(type: CsvExport){
+task csvimport(type: CsvImport){
     database = [db_uri, db_user, db_pass]
-	schemaName = "csvexport"
-	tableName = "exportdata"
+	schemaName = "csvimport"
+	tableName = "importdata_batchsize"
 	firstLineIsHeader=true
-	attributes = [ "t_id","Aint","adec","atext","aenum","adate","atimestamp","aboolean" ]
-    dataFile = "data.csv"
+    dataFile = "data1.csv"
+	batchSize = 10
 }

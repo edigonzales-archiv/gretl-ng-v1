@@ -2,21 +2,19 @@ package ch.so.agi.gretl.jobs;
 
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.gradle.testkit.runner.TaskOutcome.FAILED;
+import static org.gradle.testkit.runner.TaskOutcome.SUCCESS;
+import static org.junit.Assert.*;
 
-import static org.gradle.testkit.runner.TaskOutcome.*;
-
-public class IliValidatorTest {
+public class CsvValidatorTest {
     @Test
     public void validationOk() throws Exception {
         BuildResult result = GradleRunner.create()
-                .withProjectDir(new File("src/functionalTest/jobs/IliValidator/"))
+                .withProjectDir(new File("src/functionalTest/jobs/CsvValidator/"))
                 .withArguments("-i")
                 .withPluginClasspath()
                 .build();
@@ -24,11 +22,11 @@ public class IliValidatorTest {
         assertTrue(result.getOutput().contains("...validation done"));
         assertEquals(SUCCESS, result.task(":validate").getOutcome());
     }
-
+    
     @Test
     public void validationFail() throws Exception {
         BuildResult result = GradleRunner.create()
-                .withProjectDir(new File("src/functionalTest/jobs/IliValidatorFail/"))
+                .withProjectDir(new File("src/functionalTest/jobs/CsvValidatorFail/"))
                 .withArguments("-i")
                 .withPluginClasspath()
                 .buildAndFail();
