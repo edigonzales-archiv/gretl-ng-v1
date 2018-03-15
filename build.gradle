@@ -83,7 +83,7 @@ task functionalTest(type: Test) {
 
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath += sourceSets.functionalTest.runtimeClasspath //+ sourceSets.main.runtimeClasspath
-    jvmArgs '-Xmx1g'
+    //jvmArgs '-Xmx1g'
 
     //mustRunAfter test
 }
