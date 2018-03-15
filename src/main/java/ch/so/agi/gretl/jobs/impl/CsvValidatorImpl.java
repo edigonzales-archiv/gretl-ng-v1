@@ -1,4 +1,4 @@
-package ch.so.agi.gretl.tasks.impl;
+package ch.so.agi.gretl.jobs.impl;
 
 import java.io.File;
 

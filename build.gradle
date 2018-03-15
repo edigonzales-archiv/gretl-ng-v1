@@ -58,6 +58,7 @@ dependencies {
 
     testImplementation junitDependency
     functionalTestImplementation junitDependency
+    functionalTestRuntime postgresqlDependency
 }
 
 gradlePlugin {
@@ -79,7 +80,7 @@ task functionalTest(type: Test) {
     testLogging.showStandardStreams = System.getenv('TRAVIS')=='true'
 
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
-    classpath = sourceSets.functionalTest.runtimeClasspath
+    classpath += sourceSets.functionalTest.runtimeClasspath // + sourceSets.main.runtimeClasspath
     jvmArgs '-Xmx1g'
 
     //mustRunAfter test
@@ -87,7 +88,7 @@ task functionalTest(type: Test) {
 
 // Transfer the required configuration variables to all test code.
 // (The test code has no access to the -D or -P variables as it is executed in a separate jvm-process)
-test {
+tasks.withType(Test) {
     def GRETLTEST_DBURI_PG = 'gretltest_dburi_pg'
     systemProperty(GRETLTEST_DBURI_PG, findProperty(GRETLTEST_DBURI_PG))
 

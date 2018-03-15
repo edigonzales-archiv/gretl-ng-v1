@@ -1,4 +1,4 @@
-package ch.so.agi.gretl.tasks;
+package ch.so.agi.gretl.jobs;
 
 
 import java.io.File;
@@ -12,8 +12,8 @@ import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.TaskAction;
 
 import ch.ehi.basics.settings.Settings;
-import ch.interlis.ioxwkf.dbtools.Db2Shp;
 import ch.interlis.ioxwkf.dbtools.IoxWkfConfig;
+import ch.interlis.ioxwkf.dbtools.Shp2db;
 import ch.interlis.ioxwkf.shp.ShapeReader;
 import ch.so.agi.gretl.api.Connector;
 import ch.so.agi.gretl.logging.GretlLogger;
@@ -21,7 +21,7 @@ import ch.so.agi.gretl.logging.LogEnvironment;
 import ch.so.agi.gretl.util.TaskUtil;
 
 
-public class ShpExport extends DefaultTask {
+public class ShpImport extends DefaultTask {
     protected GretlLogger log;
     @Input
     public Connector database;
@@ -35,11 +35,14 @@ public class ShpExport extends DefaultTask {
     @Input
     @Optional
     public String encoding=null;
-    
+    @Input
+    @Optional
+    public Integer batchSize=null;
+
     @TaskAction
-    public void exportData()
+    public void importData()
     {
-        log = LogEnvironment.getLogger(ShpExport.class);
+        log = LogEnvironment.getLogger(ShpImport.class);
         if (database==null) {
             throw new IllegalArgumentException("database must not be null");
         }
@@ -58,7 +61,9 @@ public class ShpExport extends DefaultTask {
         if(encoding!=null) {
             settings.setValue(ShapeReader.ENCODING, encoding);
         }
-        
+        if(batchSize!=null) {
+    			settings.setValue(IoxWkfConfig.SETTING_BATCHSIZE, batchSize.toString());
+        }
         File data=this.getProject().file(dataFile);
         java.sql.Connection conn=null;
         try {
@@ -66,13 +71,13 @@ public class ShpExport extends DefaultTask {
             if(conn==null) {
                 throw new IllegalArgumentException("connection must not be null");
             }
-            Db2Shp db2shp=new Db2Shp();
-            db2shp.exportData(data, conn, settings);
+            Shp2db shp2db=new Shp2db();
+            shp2db.importData(data, conn, settings);
             conn.commit();
             conn.close();
             conn=null;
         } catch (Exception e) {
-            log.error("failed to run ShpExport", e);
+            log.error("failed to run ShpImport", e);
             GradleException ge = TaskUtil.toGradleException(e);
             throw ge;
         }finally {

@@ -1,9 +1,9 @@
-package ch.so.agi.gretl.tasks;
+package ch.so.agi.gretl.jobs;
 
 
 import ch.ehi.ili2db.base.Ili2db;
 import ch.ehi.ili2db.gui.Config;
-import ch.so.agi.gretl.tasks.impl.Ili2pgAbstractTask;
+import ch.so.agi.gretl.jobs.impl.Ili2pgAbstractTask;
 
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Optional;

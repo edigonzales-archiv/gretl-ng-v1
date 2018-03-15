@@ -8,8 +8,10 @@ Was machen mit DbTest-Kategorie? Sowohl die Integrationstests wie auch diese Tes
 Was würde - Stand heute - wegfallen:
 * Ein paar Tests.
 * "useJUnit"-Zeugs im build.gradle
-* "tasks.withType(Tests)" weil keine Parameter weitergeleitet werden müssen (vielleicht aber andere?) (im build.gradle)
 
+### Tests
+* Im build.gradle gibt es eine Default-DB-Url. In den TestUtilSql-Klassen nicht -> Test fliegt ohne dburi als -P trotzdem um die Ohren.
+* -> JUnit 5
 
 ### Clean Code
 * Gross-/Kleinschreibung in Db2Db-Testklasse.

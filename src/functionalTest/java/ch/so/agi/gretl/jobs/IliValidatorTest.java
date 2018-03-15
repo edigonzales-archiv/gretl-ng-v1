@@ -1,4 +1,4 @@
-package ch.so.agi.gretl.tasks;
+package ch.so.agi.gretl.jobs;
 
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
