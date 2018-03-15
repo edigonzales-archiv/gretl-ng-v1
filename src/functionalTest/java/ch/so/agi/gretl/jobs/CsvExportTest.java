@@ -41,7 +41,7 @@ public class CsvExportTest {
 
             // check results
             assertEquals(SUCCESS, result.task(":csvexport").getOutcome());
-            
+
             System.out.println("cwd "+new File(".").getAbsolutePath());
             java.io.LineNumberReader reader=new java.io.LineNumberReader(new java.io.InputStreamReader(new java.io.FileInputStream(new File("src/functionalTest/jobs/CsvExport/data.csv"))));
             String line=reader.readLine();
