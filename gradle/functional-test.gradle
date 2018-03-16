@@ -21,6 +21,9 @@ import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer
 import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer.ExposedPort
 import com.bmuschko.gradle.docker.tasks.container.extras.DockerWaitHealthyContainer
 
+def PG_TAG_NAME = "test-database-pg"
+def PG_CONTAINER_NAME = "test-database-pg"
+
 sourceSets {
     functionalTest {
         java.srcDir file('src/functionalTest/java')
