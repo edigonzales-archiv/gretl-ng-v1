@@ -1,3 +1,4 @@
+
 buildscript {
     repositories {
         jcenter()
@@ -47,7 +48,7 @@ task removePostgresDockerContainer(type: DockerRemoveContainer) {
     }
 }
 
-task createPostgresDockerContainer( type: DockerCreateContainer) {
+task createPostgresDockerContainer(type: DockerCreateContainer) {
     dependsOn 'buildPostgresDockerImage'
     dependsOn 'removePostgresDockerContainer'
 
@@ -60,7 +61,7 @@ task createPostgresDockerContainer( type: DockerCreateContainer) {
     exposedPorts = [new ExposedPort("tcp", [5432])]
 }
 
-task startPostgresDockerContainer( type: DockerStartContainer) {
+task startPostgresDockerContainer(type: DockerStartContainer) {
     dependsOn 'createPostgresDockerContainer'
 
     description = "Start PostgreSQL docker container for testing."

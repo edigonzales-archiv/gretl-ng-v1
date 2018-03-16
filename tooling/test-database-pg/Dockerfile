@@ -4,4 +4,4 @@ ENV POSTGRES_DB gretl
 
 COPY init-test-db.sh /docker-entrypoint-initdb.d/
 
-HEALTHCHECK CMD pg_isready -U postgres || exit 1
+HEALTHCHECK --interval=5s --retries=5 CMD pg_isready -U postgres || exit 1
