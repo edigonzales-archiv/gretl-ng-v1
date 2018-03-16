@@ -12,6 +12,7 @@ Was würde - Stand heute - wegfallen:
 ### Tests
 * Im build.gradle gibt es eine Default-DB-Url. In den TestUtilSql-Klassen nicht -> Test fliegt ohne dburi als -P trotzdem um die Ohren.
 * -> JUnit 5
+* functional tests with 3rd party plugins
 
 ### Clean Code
 * Gross-/Kleinschreibung in Db2Db-Testklasse.

@@ -1,3 +1,18 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-docker-plugin:3.2.5'
+    }
+}
+
+apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+
+import java.nio.file.Paths
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.container.DockerRemoveContainer
 import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer
@@ -5,18 +20,22 @@ import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer
 import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer.ExposedPort
 import com.bmuschko.gradle.docker.tasks.container.extras.DockerWaitHealthyContainer
 
-apply plugin: 'com.bmuschko.docker-remote-api'
+sourceSets {
+    functionalTest {
+        java.srcDir file('src/functionalTest/java')
+    }
+}
 
 task buildPostgresDockerImage(type: DockerBuildImage) {
     description = "Build PostgreSQL docker image for testing."
     group = 'Docker'
 
-    inputDir = file("test-database-pg").getAbsoluteFile()
+    inputDir = file(Paths.get(project.rootDir.toString(), "tooling", "test-database-pg"))
     tag = "test-database-pg"
 }
 
 task removePostgresDockerContainer(type: DockerRemoveContainer) {
-    description = "Remove PostgreSQL docker container for testing."
+    description = "Remove existing PostgreSQL testing docker container."
     group = 'Docker'
 
     targetContainerId { "test-database-pg" }
@@ -56,6 +75,28 @@ task startAndWaitOnHealthyPostgresContainer(type: DockerWaitHealthyContainer) {
     description = "Waiting until the PostgreSQL running within the container becomes accessible."
     group = 'Docker'
 
-    timeout = 20
+    timeout = 60
     targetContainerId { createPostgresDockerContainer.getContainerId() }
 }
+
+task functionalTest(type: Test) {
+    description = 'Run the functional tests.'
+    group = 'Verification'
+
+    // show standard out and standard error of the test JVM(s) on the console
+    testLogging.showStandardStreams = System.getenv('TRAVIS')=='true'
+
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath += sourceSets.functionalTest.runtimeClasspath //+ sourceSets.main.runtimeClasspath
+    //jvmArgs '-Xmx1g'
+
+    //mustRunAfter test
+}
+
+functionalTest {
+    dependsOn startAndWaitOnHealthyPostgresContainer
+    //finalizedBy stopContainer
+}
+
+
+

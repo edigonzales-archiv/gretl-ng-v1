@@ -2,10 +2,10 @@ plugins {
     id 'java'
     id 'maven-publish'    
     id 'java-gradle-plugin'
-    id 'com.bmuschko.docker-remote-api' version '3.2.5'
 }
 
 apply from: 'dependencies.gradle'
+apply from: 'gradle/functional-test.gradle'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -16,11 +16,6 @@ description = 'gretl gradle plugin'
 group 'ch.so.agi'
 version '1.0.5'+System.getProperty('release', "-SNAPSHOT") // -Drelease
 
-sourceSets {
-    functionalTest {
-        java.srcDir file('src/functionalTest/java')
-    }
-}
 
 /*
 publishing {
@@ -75,20 +70,6 @@ gradlePlugin {
             implementationClass = 'ch.so.agi.gretl.gradle.GretlPlugin'
         }
     }
-}
-
-task functionalTest(type: Test) {
-    description = 'Run the functional tests.'
-    group = 'Verification'
-
-    // show standard out and standard error of the test JVM(s) on the console
-    testLogging.showStandardStreams = System.getenv('TRAVIS')=='true'
-
-    testClassesDirs = sourceSets.functionalTest.output.classesDirs
-    classpath += sourceSets.functionalTest.runtimeClasspath //+ sourceSets.main.runtimeClasspath
-    //jvmArgs '-Xmx1g'
-
-    //mustRunAfter test
 }
 
 // Transfer the required configuration variables to all test code.

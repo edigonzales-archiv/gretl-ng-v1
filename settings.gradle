@@ -1,2 +1,1 @@
-include 'tooling'
 rootProject.name = 'gretl'
