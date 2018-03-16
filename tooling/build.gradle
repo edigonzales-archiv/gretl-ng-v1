@@ -1,0 +1,61 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.container.DockerRemoveContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer.ExposedPort
+import com.bmuschko.gradle.docker.tasks.container.extras.DockerWaitHealthyContainer
+
+apply plugin: 'com.bmuschko.docker-remote-api'
+
+task buildPostgresDockerImage(type: DockerBuildImage) {
+    description = "Build PostgreSQL docker image for testing."
+    group = 'Docker'
+
+    inputDir = file("test-database-pg").getAbsoluteFile()
+    tag = "test-database-pg"
+}
+
+task removePostgresDockerContainer(type: DockerRemoveContainer) {
+    description = "Remove PostgreSQL docker container for testing."
+    group = 'Docker'
+
+    targetContainerId { "test-database-pg" }
+    force = true
+
+    onError { exception ->
+        if (!exception.message.contains('No such container')) // ignore exception if container does not exist otherwise throw it
+            throw exception
+    }
+}
+
+task createPostgresDockerContainer( type: DockerCreateContainer) {
+    dependsOn 'buildPostgresDockerImage'
+    dependsOn 'removePostgresDockerContainer'
+
+    description = "Create PostgreSQL docker container for testing."
+    group = 'Docker'
+
+    targetImageId { buildPostgresDockerImage.getImageId() }
+    containerName = "test-database-pg"
+    portBindings = ['5432:5432']
+    exposedPorts = [new ExposedPort("tcp", [5432])]
+}
+
+task startPostgresDockerContainer( type: DockerStartContainer) {
+    dependsOn 'createPostgresDockerContainer'
+
+    description = "Start PostgreSQL docker container for testing."
+    group = 'Docker'
+
+    targetContainerId { createPostgresDockerContainer.getContainerId() }
+}
+
+task startAndWaitOnHealthyPostgresContainer(type: DockerWaitHealthyContainer) {
+    dependsOn 'startPostgresDockerContainer'
+
+    description = "Waiting until the PostgreSQL running within the container becomes accessible."
+    group = 'Docker'
+
+    timeout = 20
+    targetContainerId { createPostgresDockerContainer.getContainerId() }
+}

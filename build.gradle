@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'maven-publish'    
     id 'java-gradle-plugin'
+    id 'com.bmuschko.docker-remote-api' version '3.2.5'
 }
 
 apply from: 'dependencies.gradle'
@@ -28,16 +29,18 @@ publishing {
     }
 }
 */
-
-repositories {
-    mavenLocal()
-    maven {
-        url "http://jars.interlis.ch"
+allprojects {
+    repositories {
+        mavenLocal()
+        maven {
+            url "http://jars.interlis.ch"
+        }
+        maven {
+            url "http://download.osgeo.org/webdav/geotools/"
+        }
+        mavenCentral()
+        jcenter()
     }
-    maven {
-        url "http://download.osgeo.org/webdav/geotools/"
-    }
-    mavenCentral()
 }
 
 dependencies {
