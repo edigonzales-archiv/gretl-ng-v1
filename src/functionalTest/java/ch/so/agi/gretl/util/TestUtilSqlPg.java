@@ -34,6 +34,8 @@ public class TestUtilSqlPg extends AbstractTestUtilSql {
             con.setAutoCommit(false);
         }
         catch(Exception e) {
+            // Error message is strange: If you forget to pass the jdbc-url-string
+            // it will report "No suitable driver found for".
             throw new RuntimeException(e);
         }
 

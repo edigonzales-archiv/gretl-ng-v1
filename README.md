@@ -1,5 +1,9 @@
 # gretl-ng
 
+```
+ ./gradlew build functionalTest -Pgretltest_dburi_pg=jdbc:postgresql:gretl
+```
+
 ## TODO
 
 ### JUnit-Testkategorien

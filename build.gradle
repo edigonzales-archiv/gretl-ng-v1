@@ -58,7 +58,7 @@ dependencies {
 
     functionalTestImplementation junitDependency
     functionalTestImplementation ioxWkfDependency
-    functionalTestRuntime postgresqlDependency
+    functionalTestRuntimeOnly postgresqlDependency
 }
 
 gradlePlugin {
