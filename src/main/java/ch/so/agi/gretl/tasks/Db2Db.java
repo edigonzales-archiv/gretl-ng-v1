@@ -18,9 +18,6 @@ import java.io.File;
 import java.util.List;
 
 public class Db2Db extends DefaultTask {
-
-
-
     private static GretlLogger log;
 
     static {

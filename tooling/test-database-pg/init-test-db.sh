@@ -8,3 +8,4 @@ psql -c 'select version();' -d gretl -U postgres
 psql -c 'create extension postgis;' -d gretl -U postgres
 psql -c 'create extension "uuid-ossp";' -d gretl -U postgres
 psql -c 'select postgis_full_version();' -d gretl -U postgres
+psql -c "ALTER DATABASE gretl SET postgis.gdal_enabled_drivers TO 'GTiff PNG JPEG';" -d gretl -U postgres

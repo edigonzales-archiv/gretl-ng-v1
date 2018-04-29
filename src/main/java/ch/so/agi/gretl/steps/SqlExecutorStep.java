@@ -50,7 +50,7 @@ public class SqlExecutorStep {
         execute(trans, sqlfiles,null);
     }
     
-    public void execute(Connector trans, List<File> sqlfiles,Map<String,String> params)
+    public void execute(Connector trans, List<File> sqlfiles, Map<String,String> params)
             throws Exception {
 
         Connection db = null;
@@ -192,7 +192,7 @@ public class SqlExecutorStep {
             throws Exception {
 
         SqlReader reader=new SqlReader();
-        String statement = reader.readSqlStmt(sqlfile,params);
+        String statement = reader.readSqlStmt(sqlfile, params);
 
        if (statement == null){
            throw new GretlException(GretlException.TYPE_NO_STATEMENT,"At least one statement must be in the sql-File");

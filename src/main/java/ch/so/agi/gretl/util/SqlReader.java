@@ -21,7 +21,7 @@ public class SqlReader {
         return readSqlStmt(sqlfile, null);
     }
     
-    public String readSqlStmt(File sqlfile,Map<String,String> params)
+    public String readSqlStmt(File sqlfile, Map<String,String> params)
             throws IOException {
 
         if(reader!=null) {

@@ -89,6 +89,7 @@ task functionalTest(type: Test) {
 
     // show standard out and standard error of the test JVM(s) on the console
     testLogging.showStandardStreams = System.getenv('TRAVIS')=='true'
+    //testLogging.showStandardStreams = true
 
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath += sourceSets.functionalTest.runtimeClasspath //+ sourceSets.main.runtimeClasspath
@@ -100,6 +101,10 @@ task functionalTest(type: Test) {
 functionalTest {
     dependsOn startAndWaitOnHealthyPostgresContainer
     //finalizedBy stopContainer
+
+    filter {
+        //includeTestsMatching "ch.so.agi.gretl.jobs.PostgisRasterExportTest"
+    }
 }
 
 
