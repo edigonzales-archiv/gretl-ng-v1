@@ -5,9 +5,11 @@ import ch.so.agi.gretl.logging.GretlLogger;
 import ch.so.agi.gretl.logging.LogEnvironment;
 import ch.so.agi.gretl.util.GretlException;
 import ch.so.agi.gretl.util.SqlReader;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,11 +64,9 @@ public class PostgisRasterExportStep {
             for (int i = 1; i < numberOfColumns + 1; i++) {
                 String columnTypeName = rsmd.getColumnTypeName(i);
                 if (columnTypeName.equalsIgnoreCase("bytea")) {
-                    FileOutputStream fout;
                     rs.next();
-                    fout = new FileOutputStream(dataFile);
-                    fout.write(rs.getBytes(i));
-                    fout.close();
+                    InputStream is = rs.getBinaryStream(i);
+                    FileUtils.copyInputStreamToFile(is, dataFile);
                     break; // If we found a bytea column we can stop.
                 }
             }
